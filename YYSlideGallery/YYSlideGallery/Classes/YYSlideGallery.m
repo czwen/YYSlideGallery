@@ -7,7 +7,9 @@
 //
 
 #import "YYSlideGallery.h"
-
+@interface YYSlideGallery()
+@property (strong,nonatomic) UIPanGestureRecognizer *panGesture;
+@end
 @implementation YYSlideGallery
 
 - (id)initWithFrame:(CGRect)frame andPhotos:(NSArray*)photos
@@ -33,10 +35,11 @@
     self.galleryView.showsHorizontalScrollIndicator = NO;
     self.galleryView.alwaysBounceHorizontal = NO;
     self.galleryView.alwaysBounceVertical = NO;
+    self.galleryView.allowsSelection = YES;
     
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
-    panGesture.delegate = self;
-    [self.galleryView addGestureRecognizer:panGesture];
+    self.panGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
+    self.panGesture.delegate = self;
+    [self.galleryView addGestureRecognizer:self.panGesture];
     [self.galleryView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
 }
 
@@ -63,6 +66,12 @@
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([[self.galleryView visibleCells]count]>1) {
+        [self.galleryView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    }
+}
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)recognizer
 {
@@ -71,7 +80,7 @@
     NSLog(@"%f",progress);
     //大于0向右
     if (progress>0) {
-        if (recognizer.state == UIGestureRecognizerStateCancelled || recognizer.state == UIGestureRecognizerStateEnded) {
+        if (recognizer.state == UIGestureRecognizerStateCancelled || recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == 5) {
             NSArray *visbleCells = [self.galleryView visibleCells];
             UICollectionViewCell *firstCell = (UICollectionViewCell*)[visbleCells firstObject];
             UICollectionViewCell *secondCell = (UICollectionViewCell*)[visbleCells lastObject];
@@ -79,7 +88,7 @@
                 firstCell = (UICollectionViewCell*)[visbleCells lastObject];
                 secondCell = (UICollectionViewCell*)[visbleCells firstObject];
             }
-            if (progress>0.1) {
+            if (progress>0.2) {
                 NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:firstCell];
                 [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
             }else{
@@ -88,7 +97,7 @@
             }
         }
     }else{
-        if (recognizer.state == UIGestureRecognizerStateCancelled || recognizer.state == UIGestureRecognizerStateEnded) {
+        if (recognizer.state == UIGestureRecognizerStateCancelled || recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == 5) {
             NSArray *visbleCells = [self.galleryView visibleCells];
             UICollectionViewCell *firstCell = (UICollectionViewCell*)[visbleCells firstObject];
             UICollectionViewCell *secondCell = (UICollectionViewCell*)[visbleCells lastObject];
@@ -96,7 +105,7 @@
                 firstCell = (UICollectionViewCell*)[visbleCells lastObject];
                 secondCell = (UICollectionViewCell*)[visbleCells firstObject];
             }
-            if (progress<-0.1) {
+            if (progress<-0.2) {
                 NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:secondCell];
                 [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
             }else{
@@ -109,63 +118,6 @@
 
 }
 
-//- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
-//{
-//    NSArray *visbleCells = [self.galleryView visibleCells];
-//    UICollectionViewCell *firstCell = (UICollectionViewCell*)[visbleCells firstObject];
-//    UICollectionViewCell *secondCell = (UICollectionViewCell*)[visbleCells lastObject];
-//    CGRect firstCellRect = [scrollView convertRect:firstCell.frame toView:scrollView.superview];
-//    if (visbleCells.count>1) {
-//        if (abs(firstCellRect.origin.x)>scrollView.superview.frame.size.width/4) {
-//            NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:secondCell];
-//            [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-//        }else{
-//            NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:firstCell];
-//            [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-//        }
-//    }else{
-//        
-//    }
-//}
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
-//    NSArray *visbleCells = [self.galleryView visibleCells];
-//    UICollectionViewCell *firstCell = (UICollectionViewCell*)[visbleCells firstObject];
-//    UICollectionViewCell *secondCell = (UICollectionViewCell*)[visbleCells lastObject];
-//    CGRect firstCellRect = [scrollView convertRect:firstCell.frame toView:scrollView.superview];
-//    if (visbleCells.count>1) {
-//            if (abs(firstCellRect.origin.x)>scrollView.superview.frame.size.width/4) {
-//                NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:secondCell];
-//                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-//            }else{
-//                NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:firstCell];
-//                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-//            }
-//    }else{
-//        
-//    }
-//}
-//
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-//{
-//    NSArray *visbleCells = [self.galleryView visibleCells];
-//    UICollectionViewCell *firstCell = (UICollectionViewCell*)[visbleCells firstObject];
-//    UICollectionViewCell *secondCell = (UICollectionViewCell*)[visbleCells lastObject];
-//    CGRect firstCellRect = [scrollView convertRect:firstCell.frame toView:scrollView.superview];
-//    if (visbleCells.count>1) {
-//        if (abs(firstCellRect.origin.x)>scrollView.superview.frame.size.width/4) {
-//            NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:secondCell];
-//            [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-//        }else{
-//            NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:firstCell];
-//            [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-//        }
-//    }else{
-//        
-//    }
-//}
-
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
@@ -174,6 +126,5 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake(320, 320);
 }
-
 
 @end
