@@ -31,6 +31,8 @@
     self.galleryView.delegate = self;
     self.galleryView.dataSource = self;
     self.galleryView.showsHorizontalScrollIndicator = NO;
+    self.galleryView.alwaysBounceHorizontal = NO;
+    self.galleryView.alwaysBounceVertical = NO;
     
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
     panGesture.delegate = self;
@@ -77,12 +79,12 @@
                 firstCell = (UICollectionViewCell*)[visbleCells lastObject];
                 secondCell = (UICollectionViewCell*)[visbleCells firstObject];
             }
-            if (progress>0.2) {
+            if (progress>0.1) {
                 NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:firstCell];
-                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
             }else{
                 NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:secondCell];
-                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
             }
         }
     }else{
@@ -94,12 +96,12 @@
                 firstCell = (UICollectionViewCell*)[visbleCells lastObject];
                 secondCell = (UICollectionViewCell*)[visbleCells firstObject];
             }
-            if ((abs(progress))<0.2) {
+            if (progress<-0.1) {
                 NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:secondCell];
-                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
             }else{
                 NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:firstCell];
-                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
             }
         }
     }
