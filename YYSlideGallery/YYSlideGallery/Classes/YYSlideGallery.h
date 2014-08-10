@@ -7,14 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GalleryView.h"
 #import "PhotoCell.h"
-@interface YYSlideGallery : NSObject<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UIGestureRecognizerDelegate>
+@interface YYSlideGallery : UIView<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UIGestureRecognizerDelegate>
 
-@property (strong,nonatomic) GalleryView *galleryView;
+@property (strong,nonatomic) UICollectionView *galleryView;
 
 @property (strong,nonatomic) NSMutableArray *photos;
 
+@property (strong,nonatomic) UIPageControl *pageControl;
+
+@property (strong,nonatomic) UIColor *currentPageIndicatorTintColor;
+
+@property (strong,nonatomic) UIColor *pageIndicatorTintColor;
 
 - (id)initWithFrame:(CGRect)frame andPhotos:(NSArray*)photos;
 

@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "GalleryView.h"
 #import "YYSlideGallery.h"
 @interface ViewController ()
 @property (nonatomic,strong) YYSlideGallery *gallery;
@@ -21,7 +20,7 @@
     if (self) {
         // Custom initialization
         self.gallery = [[YYSlideGallery alloc]initWithFrame:CGRectMake(0, 0, 320, 320) andPhotos:@[]];
-        [self.view addSubview:self.gallery.galleryView];
+        [self.view addSubview:self.gallery];
     }
     return self;
 }

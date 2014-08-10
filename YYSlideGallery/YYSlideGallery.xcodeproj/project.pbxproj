@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		94034B241997D337002C4B66 /* 1385573490525.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 94034B231997D337002C4B66 /* 1385573490525.jpg */; };
 		9452AEA01994658A00059687 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9452AE9F1994658A00059687 /* ViewController.m */; };
 		9452AEA4199466BA00059687 /* YYSlideGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = 9452AEA3199466BA00059687 /* YYSlideGallery.m */; };
-		9452AEA71994673D00059687 /* GalleryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9452AEA61994673D00059687 /* GalleryView.m */; };
 		9452AEA9199469A800059687 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9452AEA8199469A700059687 /* Storyboard.storyboard */; };
 		9452AEAC19946DFF00059687 /* PhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9452AEAB19946DFF00059687 /* PhotoCell.m */; };
 		94A014EB1994615C00FAD683 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94A014EA1994615C00FAD683 /* Foundation.framework */; };
@@ -37,12 +37,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		94034B231997D337002C4B66 /* 1385573490525.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1385573490525.jpg; sourceTree = "<group>"; };
 		9452AE9E1994658A00059687 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		9452AE9F1994658A00059687 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9452AEA2199466BA00059687 /* YYSlideGallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYSlideGallery.h; sourceTree = "<group>"; };
 		9452AEA3199466BA00059687 /* YYSlideGallery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYSlideGallery.m; sourceTree = "<group>"; };
-		9452AEA51994673D00059687 /* GalleryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryView.h; sourceTree = "<group>"; };
-		9452AEA61994673D00059687 /* GalleryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryView.m; sourceTree = "<group>"; };
 		9452AEA8199469A700059687 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		9452AEAA19946DFF00059687 /* PhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCell.h; sourceTree = "<group>"; };
 		9452AEAB19946DFF00059687 /* PhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCell.m; sourceTree = "<group>"; };
@@ -93,8 +92,6 @@
 			children = (
 				9452AEA2199466BA00059687 /* YYSlideGallery.h */,
 				9452AEA3199466BA00059687 /* YYSlideGallery.m */,
-				9452AEA51994673D00059687 /* GalleryView.h */,
-				9452AEA61994673D00059687 /* GalleryView.m */,
 				9452AEAA19946DFF00059687 /* PhotoCell.h */,
 				9452AEAB19946DFF00059687 /* PhotoCell.m */,
 			);
@@ -142,6 +139,7 @@
 				9452AE9E1994658A00059687 /* ViewController.h */,
 				9452AE9F1994658A00059687 /* ViewController.m */,
 				9452AEA8199469A700059687 /* Storyboard.storyboard */,
+				94034B231997D337002C4B66 /* 1385573490525.jpg */,
 			);
 			path = YYSlideGallery;
 			sourceTree = "<group>";
@@ -251,6 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94A014F51994615C00FAD683 /* InfoPlist.strings in Resources */,
+				94034B241997D337002C4B66 /* 1385573490525.jpg in Resources */,
 				94A014FD1994615C00FAD683 /* Images.xcassets in Resources */,
 				9452AEA9199469A800059687 /* Storyboard.storyboard in Resources */,
 			);
@@ -272,7 +271,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9452AEAC19946DFF00059687 /* PhotoCell.m in Sources */,
-				9452AEA71994673D00059687 /* GalleryView.m in Sources */,
 				9452AEA01994658A00059687 /* ViewController.m in Sources */,
 				94A014FB1994615C00FAD683 /* AppDelegate.m in Sources */,
 				9452AEA4199466BA00059687 /* YYSlideGallery.m in Sources */,

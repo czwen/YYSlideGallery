@@ -14,12 +14,24 @@
 
 - (id)initWithFrame:(CGRect)frame andPhotos:(NSArray*)photos
 {
-    self = [super init];
+    self = [super initWithFrame:frame];
     if (self) {
         self.photos = [NSMutableArray arrayWithArray:photos];
         [self setupGalleryWithFrame:frame];
+        [self setupPageControl:frame];
     }
     return self;
+}
+- (void)setupPageControl:(CGRect)frame
+{
+    self.pageControl = [[UIPageControl alloc]initWithFrame:CGRectZero];
+    self.pageControl.numberOfPages = 10;
+    self.pageControl.pageIndicatorTintColor = [UIColor grayColor];
+    self.pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
+    [self.pageControl sizeToFit];
+    self.pageControl.frame = CGRectMake(20,frame.size.height-self.pageControl.frame.size.height, self.pageControl.frame.size.width, self.pageControl.frame.size.height);
+    
+    [self addSubview:self.pageControl];
 }
 
 - (void)setupGalleryWithFrame:(CGRect)frame
@@ -28,7 +40,7 @@
     [layout setMinimumInteritemSpacing:0.0f];
     [layout setMinimumLineSpacing:0.0f];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    self.galleryView = [[GalleryView alloc]initWithFrame:frame collectionViewLayout:layout];
+    self.galleryView = [[UICollectionView alloc]initWithFrame:frame collectionViewLayout:layout];
     self.galleryView.backgroundColor = [UIColor whiteColor];
     self.galleryView.delegate = self;
     self.galleryView.dataSource = self;
@@ -36,11 +48,10 @@
     self.galleryView.alwaysBounceHorizontal = NO;
     self.galleryView.alwaysBounceVertical = NO;
     self.galleryView.allowsSelection = YES;
+    self.galleryView.pagingEnabled = YES;
+    [self.galleryView registerClass:[PhotoCell class] forCellWithReuseIdentifier:@"cell"];
     
-    self.panGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
-    self.panGesture.delegate = self;
-    [self.galleryView addGestureRecognizer:self.panGesture];
-    [self.galleryView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
+    [self addSubview:self.galleryView];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -56,66 +67,20 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    //cell.backgroundColor = [UIColor colorWithRed:(CGFloat)random()/(CGFloat)RAND_MAX green:(CGFloat)random()/(CGFloat)RAND_MAX blue:(CGFloat)random()/(CGFloat)RAND_MAX alpha:1.0f];
-    if(indexPath.row %2 ==0){
-        cell.backgroundColor = [UIColor yellowColor];
-    }else{
-        cell.backgroundColor = [UIColor redColor];
-    }
+    PhotoCell *cell = (PhotoCell*)[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    [cell.imageView setImage:[UIImage imageNamed:@"1385573490525.jpg"]];
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([[self.galleryView visibleCells]count]>1) {
-        [self.galleryView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-    }
 }
 
-- (void)handlePanGesture:(UIPanGestureRecognizer*)recognizer
-{
-
-    CGFloat progress = [recognizer translationInView:self.galleryView].x / (self.galleryView.bounds.size.width * 1.0);
-    NSLog(@"%f",progress);
-    //大于0向右
-    if (progress>0) {
-        if (recognizer.state == UIGestureRecognizerStateCancelled || recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == 5) {
-            NSArray *visbleCells = [self.galleryView visibleCells];
-            UICollectionViewCell *firstCell = (UICollectionViewCell*)[visbleCells firstObject];
-            UICollectionViewCell *secondCell = (UICollectionViewCell*)[visbleCells lastObject];
-            if (firstCell.frame.origin.x>secondCell.frame.origin.x) {
-                firstCell = (UICollectionViewCell*)[visbleCells lastObject];
-                secondCell = (UICollectionViewCell*)[visbleCells firstObject];
-            }
-            if (progress>0.2) {
-                NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:firstCell];
-                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
-            }else{
-                NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:secondCell];
-                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
-            }
-        }
-    }else{
-        if (recognizer.state == UIGestureRecognizerStateCancelled || recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == 5) {
-            NSArray *visbleCells = [self.galleryView visibleCells];
-            UICollectionViewCell *firstCell = (UICollectionViewCell*)[visbleCells firstObject];
-            UICollectionViewCell *secondCell = (UICollectionViewCell*)[visbleCells lastObject];
-            if (firstCell.frame.origin.x>secondCell.frame.origin.x) {
-                firstCell = (UICollectionViewCell*)[visbleCells lastObject];
-                secondCell = (UICollectionViewCell*)[visbleCells firstObject];
-            }
-            if (progress<-0.2) {
-                NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:secondCell];
-                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
-            }else{
-                NSIndexPath *cellIndexPath = [self.galleryView indexPathForCell:firstCell];
-                [self.galleryView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
-            }
-        }
-    }
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-
+    int page = scrollView.contentOffset.x / 320;
+    
+    self.pageControl.currentPage = page;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
