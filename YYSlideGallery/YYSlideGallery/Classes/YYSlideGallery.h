@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "PhotoCell.h"
+@protocol YYSlideGalleryDelegate<NSObject>
+
+@end
 @interface YYSlideGallery : UIView<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UIGestureRecognizerDelegate>
 
 @property (strong,nonatomic) UICollectionView *galleryView;
@@ -21,5 +24,7 @@
 @property (strong,nonatomic) UIColor *pageIndicatorTintColor;
 
 - (id)initWithFrame:(CGRect)frame andPhotos:(NSArray*)photos;
+
+@property (assign, nonatomic) id<YYSlideGalleryDelegate>delegate;
 
 @end
