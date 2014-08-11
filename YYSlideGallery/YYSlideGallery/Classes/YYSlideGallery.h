@@ -12,7 +12,7 @@
 - (void)galleryCellImage:(UIImageView*)cellImageView forIndexPath:(NSIndexPath*)indexPath;
 - (NSInteger)numbersOfImageInGallery;
 @end
-@interface YYSlideGallery : UIView<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UIGestureRecognizerDelegate>
+@interface YYSlideGallery : UIView<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 
 @property (strong,nonatomic) UICollectionView *galleryView;
 
