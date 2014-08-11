@@ -7,25 +7,20 @@
 //
 
 #import "YYSlideGallery.h"
-@interface YYSlideGallery()
-@property (strong,nonatomic) UIPanGestureRecognizer *panGesture;
-@end
 @implementation YYSlideGallery
 
-- (id)initWithFrame:(CGRect)frame andPhotos:(NSArray*)photos
+- (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.photos = [NSMutableArray arrayWithArray:photos];
         [self setupGalleryWithFrame:frame];
-        [self setupPageControl:frame];
     }
     return self;
 }
-- (void)setupPageControl:(CGRect)frame
+- (void)setupPageControl:(CGRect)frame andNumbersOfPage:(NSInteger)pages
 {
     self.pageControl = [[UIPageControl alloc]initWithFrame:CGRectZero];
-    self.pageControl.numberOfPages = 10;
+    self.pageControl.numberOfPages = pages;
     self.pageControl.pageIndicatorTintColor = [UIColor grayColor];
     self.pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
     [self.pageControl sizeToFit];
@@ -61,14 +56,21 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    if ([self.delegate respondsToSelector:@selector(numbersOfImageInGallery)]) {
+        NSInteger numbersOfPages = [self.delegate numbersOfImageInGallery];
+        [self setupPageControl:self.frame andNumbersOfPage:numbersOfPages];
+        return numbersOfPages;
+    }
+    return 0;
 }
 
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PhotoCell *cell = (PhotoCell*)[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    [cell.imageView setImage:[UIImage imageNamed:@"1385573490525.jpg"]];
+    if ([self.delegate respondsToSelector:@selector(galleryCellImage:forIndexPath:)]) {
+        [self.delegate galleryCellImage:cell.imageView forIndexPath:indexPath];
+    }
     return cell;
 }
 

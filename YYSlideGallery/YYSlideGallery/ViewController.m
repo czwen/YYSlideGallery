@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "YYSlideGallery.h"
-@interface ViewController ()
+@interface ViewController ()<YYSlideGalleryDelegate>
 @property (nonatomic,strong) YYSlideGallery *gallery;
 @end
 
@@ -19,7 +19,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.gallery = [[YYSlideGallery alloc]initWithFrame:CGRectMake(0, 0, 320, 320) andPhotos:@[]];
+        self.gallery = [[YYSlideGallery alloc]initWithFrame:CGRectMake(0, 0, 320, 320)];
+        self.gallery.delegate = self;
         [self.view addSubview:self.gallery];
     }
     return self;
@@ -37,7 +38,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)galleryCellImage:(UIImageView *)cellImageView forIndexPath:(NSIndexPath *)indexPath
+{
+    [cellImageView setImage:[UIImage imageNamed:@"1385573490525.jpg"]];
+}
 
+- (NSInteger)numbersOfImageInGallery
+{
+    return 2;
+}
 /*
 #pragma mark - Navigation
 

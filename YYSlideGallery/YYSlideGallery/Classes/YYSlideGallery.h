@@ -9,13 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "PhotoCell.h"
 @protocol YYSlideGalleryDelegate<NSObject>
-
+- (void)galleryCellImage:(UIImageView*)cellImageView forIndexPath:(NSIndexPath*)indexPath;
+- (NSInteger)numbersOfImageInGallery;
 @end
 @interface YYSlideGallery : UIView<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UIGestureRecognizerDelegate>
 
 @property (strong,nonatomic) UICollectionView *galleryView;
 
-@property (strong,nonatomic) NSMutableArray *photos;
+@property (assign,nonatomic) NSInteger photoCount;
 
 @property (strong,nonatomic) UIPageControl *pageControl;
 
@@ -23,8 +24,6 @@
 
 @property (strong,nonatomic) UIColor *pageIndicatorTintColor;
 
-- (id)initWithFrame:(CGRect)frame andPhotos:(NSArray*)photos;
-
-@property (assign, nonatomic) id<YYSlideGalleryDelegate>delegate;
+@property (weak, nonatomic) id<YYSlideGalleryDelegate>delegate;
 
 @end
