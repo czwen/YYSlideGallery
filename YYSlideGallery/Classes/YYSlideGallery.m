@@ -17,6 +17,14 @@
     }
     return self;
 }
+
+
+- (void)awakeFromNib
+{
+    [self setupGalleryWithFrame:self.frame];
+}
+
+
 - (void)setupPageControl:(CGRect)frame andNumbersOfPage:(NSInteger)pages
 {
     self.pageControl = [[UIPageControl alloc]initWithFrame:CGRectZero];
