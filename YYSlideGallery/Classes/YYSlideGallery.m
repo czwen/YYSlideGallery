@@ -33,7 +33,7 @@
     self.pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
     [self.pageControl sizeToFit];
     self.pageControl.frame = CGRectMake(20,frame.size.height-self.pageControl.frame.size.height, self.pageControl.frame.size.width, self.pageControl.frame.size.height);
-    
+    [self.pageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventValueChanged];
     [self addSubview:self.pageControl];
 }
 
@@ -96,5 +96,19 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake(320, 320);
 }
+- (void)changePage:(id)sender
+{
+    [self.galleryView setContentOffset:CGPointMake(320*self.pageControl.currentPage, 0) animated:YES];
+}
 
+- (void)deleteImageAtIndex:(NSInteger)index
+{
+    [self.galleryView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]]];
+    [self reloadGallery];
+}
+
+- (void)reloadGallery
+{
+    [self.galleryView reloadData];
+}
 @end

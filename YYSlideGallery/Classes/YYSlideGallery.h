@@ -26,4 +26,8 @@
 
 @property (weak, nonatomic) id<YYSlideGalleryDelegate>delegate;
 
+- (void)reloadGallery;
+
+- (void)deleteImageAtIndex:(NSInteger)index;
+
 @end

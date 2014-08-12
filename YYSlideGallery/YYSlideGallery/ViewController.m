@@ -45,7 +45,7 @@
 
 - (NSInteger)numbersOfImageInGallery
 {
-    return 2;
+    return 10;
 }
 /*
 #pragma mark - Navigation
