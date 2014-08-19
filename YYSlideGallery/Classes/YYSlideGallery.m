@@ -29,12 +29,20 @@
 {
     self.pageControl = [[UIPageControl alloc]initWithFrame:CGRectZero];
     self.pageControl.numberOfPages = pages;
-    self.pageControl.pageIndicatorTintColor = [UIColor grayColor];
-    self.pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
     [self.pageControl sizeToFit];
     self.pageControl.frame = CGRectMake(20,frame.size.height-self.pageControl.frame.size.height, self.pageControl.frame.size.width, self.pageControl.frame.size.height);
     [self.pageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventValueChanged];
     [self addSubview:self.pageControl];
+}
+
+- (void)setPageIndicatorTintColor:(UIColor *)pageIndicatorTintColor
+{
+    self.pageControl.pageIndicatorTintColor = pageIndicatorTintColor;
+}
+
+- (void)setCurrentPageIndicatorTintColor:(UIColor *)currentPageIndicatorTintColor
+{
+    self.currentPageIndicatorTintColor = currentPageIndicatorTintColor;
 }
 
 - (void)setupGalleryWithFrame:(CGRect)frame
