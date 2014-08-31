@@ -25,25 +25,35 @@
 }
 
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+}
+
+- (void)makeImageZoomIn
+{
+    PhotoCell *cell = [[self.galleryView visibleCells]firstObject];
+    CGRect rect = cell.frame;
+    rect.size.height = self.frame.size.height;
+    cell.frame = rect;
+    cell.imageView.frame = self.frame;
+}
+
 - (void)setupPageControl:(CGRect)frame andNumbersOfPage:(NSInteger)pages
 {
-    self.pageControl = [[UIPageControl alloc]initWithFrame:CGRectZero];
+    if (!self.pageControl) {
+        self.pageControl = [[UIPageControl alloc]initWithFrame:CGRectZero];
+        self.pageControl.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    }
+    self.pageControl.pageIndicatorTintColor = self.pageIndicatorTintColor;
+    self.pageControl.currentPageIndicatorTintColor = self.currentPageIndicatorTintColor;
     self.pageControl.numberOfPages = pages;
     [self.pageControl sizeToFit];
-    self.pageControl.frame = CGRectMake(20,frame.size.height-self.pageControl.frame.size.height, self.pageControl.frame.size.width, self.pageControl.frame.size.height);
+    self.pageControl.frame = CGRectMake(20,frame.size.height-self.pageControl.frame.size.height, 16*pages, self.pageControl.frame.size.height);
     [self.pageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventValueChanged];
     [self addSubview:self.pageControl];
 }
 
-- (void)setPageIndicatorTintColor:(UIColor *)pageIndicatorTintColor
-{
-    self.pageControl.pageIndicatorTintColor = pageIndicatorTintColor;
-}
-
-- (void)setCurrentPageIndicatorTintColor:(UIColor *)currentPageIndicatorTintColor
-{
-    self.currentPageIndicatorTintColor = currentPageIndicatorTintColor;
-}
 
 - (void)setupGalleryWithFrame:(CGRect)frame
 {
@@ -52,6 +62,7 @@
     [layout setMinimumLineSpacing:0.0f];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     self.galleryView = [[UICollectionView alloc]initWithFrame:frame collectionViewLayout:layout];
+    self.galleryView.clipsToBounds = NO;
     self.galleryView.backgroundColor = [UIColor whiteColor];
     self.galleryView.delegate = self;
     self.galleryView.dataSource = self;
@@ -61,7 +72,7 @@
     self.galleryView.allowsSelection = YES;
     self.galleryView.pagingEnabled = YES;
     [self.galleryView registerClass:[PhotoCell class] forCellWithReuseIdentifier:@"cell"];
-    
+    [self setupPageControl:frame andNumbersOfPage:0];
     [self addSubview:self.galleryView];
 }
 
@@ -102,7 +113,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(320, 320);
+    return self.frame.size;
 }
 - (void)changePage:(id)sender
 {

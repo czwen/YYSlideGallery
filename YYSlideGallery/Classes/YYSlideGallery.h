@@ -20,9 +20,9 @@
 
 @property (strong,nonatomic) UIPageControl *pageControl;
 
-@property (strong,nonatomic) UIColor *currentPageIndicatorTintColor;
+@property (weak,nonatomic) UIColor *currentPageIndicatorTintColor;
 
-@property (strong,nonatomic) UIColor *pageIndicatorTintColor;
+@property (weak,nonatomic) UIColor *pageIndicatorTintColor;
 
 @property (weak, nonatomic) id<YYSlideGalleryDelegate>delegate;
 
@@ -30,4 +30,5 @@
 
 - (void)deleteImageAtIndex:(NSInteger)index;
 
+- (void)makeImageZoomIn;
 @end
